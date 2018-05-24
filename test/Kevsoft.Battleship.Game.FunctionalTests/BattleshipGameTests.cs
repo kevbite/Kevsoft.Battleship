@@ -9,12 +9,11 @@ namespace Kevsoft.Battleship.Game.FunctionalTests
         public void ShouldWinAfterPlayingAllMoves()
         {
             var allMoves = AllAcrossMoves.SelectMany(x => AllDownMoves.Select(y => (x, y)));
-            var battleshipGame = new BattleshipGame();
+            var battleshipGame = new BattleshipGame(null);
 
             foreach (var move in allMoves)
             {
                 battleshipGame.Fire(move);
-
             }
 
             Assert.True(battleshipGame.IsComplete);
