@@ -8,7 +8,7 @@ namespace Kevsoft.Battleship.Game.FunctionalTests
         [Fact]
         public void Test1()
         {
-
+            Assert.True(false, "ensuring build server fails");
         }
     }
 }
