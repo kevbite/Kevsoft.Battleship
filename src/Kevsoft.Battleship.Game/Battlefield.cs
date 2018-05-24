@@ -2,6 +2,34 @@
 
 namespace Kevsoft.Battleship.Game
 {
+    public class BattlefieldBuilder
+    {
+        private readonly IBattlefield _battlefield;
+
+        public BattlefieldBuilder(IBattlefield battlefield)
+        {
+            _battlefield = battlefield;
+        }
+
+        public bool AddShip(IShip ship)
+        {
+            if (!ship.CanPlace(_battlefield))
+            {
+                return false;
+            }
+
+            ship.Place(_battlefield);
+            return true;
+        }
+    }
+
+    public interface IShip
+    {
+        void Place(IBattlefield battlefield);
+
+        bool CanPlace(IBattlefield battlefield);
+    }
+
     public class Battlefield : IBattlefield
     {
         public Battlefield(int size)
