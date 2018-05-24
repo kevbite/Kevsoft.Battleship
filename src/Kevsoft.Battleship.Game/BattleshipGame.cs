@@ -4,12 +4,7 @@ namespace Kevsoft.Battleship.Game
 {
     public class BattleshipGame 
     {
-        public void Fire()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        internal void Fire((char x, int y) move)
+        public void Fire((char x, int y) position)
         {
             throw new NotImplementedException();
         }
