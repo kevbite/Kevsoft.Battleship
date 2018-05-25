@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kevsoft.Battleship.Game.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kevsoft.Battleship.ConsoleApp", "src\Kevsoft.Battleship.ConsoleApp\Kevsoft.Battleship.ConsoleApp.csproj", "{3154876A-7A51-4764-B7D2-2467A2E51278}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kevsoft.Battleship.ConsoleApp.Tests", "test\Kevsoft.Battleship.ConsoleApp.Tests\Kevsoft.Battleship.ConsoleApp.Tests.csproj", "{CA43173C-5413-431B-90CC-C5107B917186}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{3154876A-7A51-4764-B7D2-2467A2E51278}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3154876A-7A51-4764-B7D2-2467A2E51278}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3154876A-7A51-4764-B7D2-2467A2E51278}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA43173C-5413-431B-90CC-C5107B917186}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA43173C-5413-431B-90CC-C5107B917186}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA43173C-5413-431B-90CC-C5107B917186}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA43173C-5413-431B-90CC-C5107B917186}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

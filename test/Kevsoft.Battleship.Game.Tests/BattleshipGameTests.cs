@@ -96,5 +96,21 @@ namespace Kevsoft.Battleship.Game.Tests
             _battleshipGame.Misses.Should().NotContain(position1);
             _battleshipGame.Misses.Should().Contain(position2);
         }
+
+        [Fact]
+        public void ShouldReturnBoardCells()
+        {
+            var position1 = _fixture.Create<(char, int)>();
+            var position2 = _fixture.Create<(char, int)>();
+
+            _battlefield.Setup(x => x.Cells)
+                .Returns(new Dictionary<(char x, int y), IBattlefieldCell>
+                {
+                    {position1, null},
+                    {position2, null}
+                });
+
+            _battleshipGame.Cells.Should().BeEquivalentTo(position1, position2);
+        }
     }
 }
