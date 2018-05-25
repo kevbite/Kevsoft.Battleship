@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Kevsoft.Battleship.Game
 {
-    public class BattleshipGame 
+    public class BattleshipGame : IReadOnlyBattleshipGame
     {
         private readonly IBattlefield _battlefield;
         private readonly HashSet<(char x, int y)> _shots = new HashSet<(char x, int y)>();
@@ -14,9 +14,9 @@ namespace Kevsoft.Battleship.Game
             _battlefield = battlefield;
         }
 
-        public void Fire((char x, int y) position)
+        public bool Fire((char x, int y) position)
         {
-            _shots.Add(position);
+            return _shots.Add(position);
         }
 
         public bool IsComplete
@@ -27,6 +27,13 @@ namespace Kevsoft.Battleship.Game
                                                                  || _shots.Contains(battlefieldCell.Key));
             }
         }
-    
+
+        public ISet<(char x, int y)> Cells => _battlefield.Cells.Keys.ToHashSet();
+
+        public ISet<(char x, int y)> Hits => _shots
+            .Intersect(_battlefield.Cells.Where(x => x.Value.HasShipPlaced).Select(x => x.Key)).ToHashSet();
+
+        public ISet<(char x, int y)> Misses => _shots
+            .Except(Hits).ToHashSet();
     }
 }
