@@ -2,34 +2,6 @@
 
 namespace Kevsoft.Battleship.Game
 {
-    public class BattlefieldBuilder
-    {
-        private readonly IBattlefield _battlefield;
-
-        public BattlefieldBuilder(IBattlefield battlefield)
-        {
-            _battlefield = battlefield;
-        }
-
-        public bool AddShip(IShip ship)
-        {
-            if (!ship.CanPlace(_battlefield))
-            {
-                return false;
-            }
-
-            ship.Place(_battlefield);
-            return true;
-        }
-    }
-
-    public interface IShip
-    {
-        void Place(IBattlefield battlefield);
-
-        bool CanPlace(IBattlefield battlefield);
-    }
-
     public class Battlefield : IBattlefield
     {
         public Battlefield(int size)
@@ -38,7 +10,12 @@ namespace Kevsoft.Battleship.Game
         }
 
         public IReadOnlyDictionary<(char x, int y), IBattlefieldCell> Cells { get; }
-    
+
+        public void MarkCell((char x, int y) positions)
+        {
+            throw new System.NotImplementedException();
+        }
+
         private static IReadOnlyDictionary<(char x, int y), IBattlefieldCell> BuildCells(int size)
         {
             var battlefieldCells = new Dictionary<(char x, int y), IBattlefieldCell>(size * size);

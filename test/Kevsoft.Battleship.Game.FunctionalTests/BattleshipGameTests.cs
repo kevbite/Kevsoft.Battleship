@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Data;
+using System.Linq;
 using Xunit;
 
 namespace Kevsoft.Battleship.Game.FunctionalTests
@@ -9,7 +10,10 @@ namespace Kevsoft.Battleship.Game.FunctionalTests
         public void ShouldWinAfterPlayingAllMoves()
         {
             var allMoves = AllAcrossMoves.SelectMany(x => AllDownMoves.Select(y => (x, y)));
-            var battleshipGame = new BattleshipGame(new Battlefield(10));
+            var battlefield = new Battlefield(10);
+            var shipPlacer = new ShipPlacer(battlefield);
+            shipPlacer.AddShip(new Battleship(null), new ShipPlacement('A', 1, Direction.Across));
+            var battleshipGame = new BattleshipGame(battlefield);
 
             foreach (var move in allMoves)
             {
