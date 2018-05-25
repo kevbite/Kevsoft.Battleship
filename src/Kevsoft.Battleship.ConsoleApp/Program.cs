@@ -10,7 +10,7 @@ namespace Kevsoft.Battleship.ConsoleApp
             Console.WriteLine("Welcome to Battleships!");
             Console.WriteLine("=======================");
             Console.WriteLine();
-            Console.WriteLine("Press any key to get started");
+            Console.WriteLine("Press any key to get started...");
             Console.ReadKey();
             var battlefield = new Battlefield(10);
             var shipPlacer = new ShipPlacer(battlefield);
@@ -26,8 +26,12 @@ namespace Kevsoft.Battleship.ConsoleApp
                 var x = Console.ReadKey().KeyChar;
                 var y = (int)char.GetNumericValue(Console.ReadKey().KeyChar);
 
-                battleshipGame.Fire((x, y));
-
+                if (!battleshipGame.Fire((x, y)))
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Invalid move, press any key to continue...");
+                    Console.ReadKey();
+                }
             }
         }
     }

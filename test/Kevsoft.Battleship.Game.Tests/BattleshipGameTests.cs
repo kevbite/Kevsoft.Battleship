@@ -44,5 +44,16 @@ namespace Kevsoft.Battleship.Game.Tests
 
             _battleshipGame.IsComplete.Should().BeTrue();
         }
+
+        [Fact]
+        public void ShouldReturnFalseOnFiringSameCell()
+        {
+            var position = ('A', 1);
+            _battlefield.Setup(x => x.Cells)
+                .Returns(new Dictionary<(char x, int y), IBattlefieldCell>());
+
+            _battleshipGame.Fire(position).Should().BeTrue();
+            _battleshipGame.Fire(position).Should().BeFalse();
+        }
     }
 }

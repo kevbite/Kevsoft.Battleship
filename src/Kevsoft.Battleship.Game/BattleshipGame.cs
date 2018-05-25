@@ -14,9 +14,9 @@ namespace Kevsoft.Battleship.Game
             _battlefield = battlefield;
         }
 
-        public void Fire((char x, int y) position)
+        public bool Fire((char x, int y) position)
         {
-            _shots.Add(position);
+            return _shots.Add(position);
         }
 
         public bool IsComplete
