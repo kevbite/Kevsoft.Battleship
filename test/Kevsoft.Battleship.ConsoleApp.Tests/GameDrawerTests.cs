@@ -16,7 +16,7 @@ namespace Kevsoft.Battleship.ConsoleApp.Tests
         public GameDrawerTests()
         {
             _writer = new StringWriter();
-            _gameDrawer = new GameDrawer(_writer);
+            _gameDrawer = new GameDrawer(_writer, _ => {}, () => {});
         }
 
         [Fact]
@@ -53,6 +53,29 @@ namespace Kevsoft.Battleship.ConsoleApp.Tests
                     " - + - + - + - " + Environment.NewLine +
                     " 3 | X |   |   " + Environment.NewLine +
                     " - + - + - + - " + Environment.NewLine);
+        }
+
+        [Fact]
+        public void DrawsDoubleFigures()
+        {
+            var game = new Mock<IReadOnlyBattleshipGame>();
+            game.Setup(x => x.Cells)
+                .Returns(new HashSet<(char x, int y)>
+                {
+                    ('A', 10)
+                });
+            game.Setup(x => x.Hits).Returns(new HashSet<(char x, int y)>());
+            game.Setup(x => x.Misses).Returns(new HashSet<(char x, int y)>());
+
+
+            _gameDrawer.Draw(game.Object);
+
+            _writer.ToString()
+                .Should().Be(
+                    "   | A " + Environment.NewLine +
+                    "---+---" + Environment.NewLine +
+                    " 10|   " + Environment.NewLine +
+                    " - + - " + Environment.NewLine);
         }
     }
 }

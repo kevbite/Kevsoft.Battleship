@@ -18,13 +18,15 @@ namespace Kevsoft.Battleship.ConsoleApp
             shipPlacer.AddShip(new Game.Battleship(new SingleLineBattleshipPlacement(1)), new ShipPlacement('B', 2, Direction.Down));
 
             var battleshipGame = new BattleshipGame(battlefield);
-            
+            var gameDrawer = new GameDrawer(Console.Out, c => Console.ForegroundColor = c, Console.ResetColor);
             while (!battleshipGame.IsComplete)
             {
                 Console.Clear();
-                Console.Write("Fire at (eg C2): ");
-                var x = Console.ReadKey().KeyChar;
-                var y = (int)char.GetNumericValue(Console.ReadKey().KeyChar);
+                gameDrawer.Draw(battleshipGame);
+                Console.WriteLine();
+                Console.Write("Fire at: ");
+                var x = ReadX();
+                var y = ReadY();
 
                 if (!battleshipGame.Fire((x, y)))
                 {
@@ -33,6 +35,37 @@ namespace Kevsoft.Battleship.ConsoleApp
                     Console.ReadKey();
                 }
             }
+        }
+
+        private static int ReadY()
+        {
+            var input = string.Empty;
+            ConsoleKeyInfo key;
+            do
+            {
+                key = Console.ReadKey(true);
+                var c = key.KeyChar;
+                if (char.IsDigit(c))
+                {
+                    input += c;
+                    Console.Write(c);
+                }
+            } while (key.Key != ConsoleKey.Enter || string.IsNullOrEmpty(input));
+
+            return int.Parse(input);
+        }
+
+        private static char ReadX()
+        {
+            char x;
+            do
+            {
+                x = Console.ReadKey(true).KeyChar;
+            } while (!char.IsLetter(x));
+
+            x = char.ToUpperInvariant(x);
+            Console.Write(x);
+            return x;
         }
     }
 }
