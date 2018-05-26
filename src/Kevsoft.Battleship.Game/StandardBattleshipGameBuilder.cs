@@ -9,8 +9,8 @@ namespace Kevsoft.Battleship.Game
 
         private readonly Shipyard _shipyard = new Shipyard(new Dictionary<ShipType, Func<IShip>>()
         {
-            {ShipType.Battleship, () => new Battleship(new SingleLineBattleshipPlacement(1)) },
-            {ShipType.Destroyer, () => new Battleship(new SingleLineBattleshipPlacement(1)) },
+            {ShipType.Battleship, () => new Battleship(new SingleLineBattleshipPlacement(5)) },
+            {ShipType.Destroyer, () => new Battleship(new SingleLineBattleshipPlacement(4)) },
         });
 
         public StandardBattleshipGameBuilder WithShip(ShipType type)

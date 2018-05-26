@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Kevsoft.Battleship.Game
 {
@@ -22,11 +23,16 @@ namespace Kevsoft.Battleship.Game
         public Battlefield Build()
         {
             var battlefield = new Battlefield(_size);
-            var shipPlacer = new ShipPlacer(battlefield);
+            var random = new Random();
+            var randomWrapper = new RandomWrapper(random);
+            var shipPlacer = new RandomShipPlacer(new RandomDirection(randomWrapper), new RandomPosition(randomWrapper), 10);
 
             for (var i = 0; i < _ships.Count; i++)
             {
-                shipPlacer.AddShip(_ships[i], new ShipPlacement('X', i + 1, Direction.Across));
+                if (!shipPlacer.AddShip(battlefield, _ships[i]))
+                {
+                    throw new Exception("Failed to build battlefield");
+                }
             }
             return battlefield;
         }
