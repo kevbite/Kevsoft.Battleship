@@ -140,6 +140,7 @@ namespace Kevsoft.Battleship.Game.Tests
 
         }
 
+        [Fact]
         public void ShouldReturnCalculatedStatistics()
         {
             var gameStatistics = _fixture.Create<GameStatistics>();
