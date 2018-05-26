@@ -17,7 +17,7 @@ namespace Kevsoft.Battleship.ConsoleApp
             shipPlacer.AddShip(new Game.Battleship(new SingleLineBattleshipPlacement(2)), new ShipPlacement('A', 1, Direction.Across));
             shipPlacer.AddShip(new Game.Battleship(new SingleLineBattleshipPlacement(1)), new ShipPlacement('B', 2, Direction.Down));
 
-            var battleshipGame = new BattleshipGame(battlefield, new PositionOnBattlefieldValidator());
+            var battleshipGame = new BattleshipGame(battlefield, new PositionOnBattlefieldValidator(), new GameStatisticsCalculator());
             var gameDrawer = new GameDrawer(Console.Out, c => Console.ForegroundColor = c, Console.ResetColor);
             while (!battleshipGame.IsComplete)
             {
@@ -35,6 +35,20 @@ namespace Kevsoft.Battleship.ConsoleApp
                     Console.ReadKey();
                 }
             }
+
+            Console.Clear();
+            gameDrawer.Draw(battleshipGame);
+            Console.WriteLine();
+            Console.WriteLine("Game Completed!");
+            var statistics = battleshipGame.CurrentStatistics;
+
+            Console.WriteLine($"Hits: {statistics.Hits}");
+            Console.WriteLine($"Misses: {statistics.Misses}");
+            Console.WriteLine($"Accuracy: {statistics.Accuracy:P}");
+
+            Console.WriteLine();
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
         }
 
         private static int ReadY()

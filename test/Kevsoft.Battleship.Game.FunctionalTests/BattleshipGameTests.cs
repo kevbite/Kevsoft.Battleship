@@ -12,7 +12,7 @@ namespace Kevsoft.Battleship.Game.FunctionalTests
             var battlefield = new Battlefield(10);
             var shipPlacer = new ShipPlacer(battlefield);
             shipPlacer.AddShip(new Battleship(new SingleLineBattleshipPlacement(1)), new ShipPlacement('A', 1, Direction.Across));
-            var battleshipGame = new BattleshipGame(battlefield, new PositionOnBattlefieldValidator());
+            var battleshipGame = new BattleshipGame(battlefield, new PositionOnBattlefieldValidator(), new GameStatisticsCalculator());
 
             foreach (var move in allMoves)
             {

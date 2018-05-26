@@ -12,13 +12,16 @@ namespace Kevsoft.Battleship.Game.Tests
         private readonly Mock<IBattlefield> _battlefield;
         private readonly BattleshipGame _battleshipGame;
         private readonly Mock<IShotValidator> _shotValidator;
+        private readonly Mock<IGameStatisticsCalculator> _statisticsCalculator;
 
         public BattleshipGameTests()
         {
             _fixture = new Fixture();
             _battlefield = new Mock<IBattlefield>();
             _shotValidator = new Mock<IShotValidator>();
-            _battleshipGame = new BattleshipGame(_battlefield.Object, _shotValidator.Object);
+            _statisticsCalculator = new Mock<IGameStatisticsCalculator>();
+
+            _battleshipGame = new BattleshipGame(_battlefield.Object, _shotValidator.Object, _statisticsCalculator.Object);
         }
 
         [Fact]
@@ -135,6 +138,15 @@ namespace Kevsoft.Battleship.Game.Tests
 
             _battleshipGame.Fire(position1).ShotFired.Should().BeFalse();
 
+        }
+
+        public void ShouldReturnCalculatedStatistics()
+        {
+            var gameStatistics = _fixture.Create<GameStatistics>();
+            _statisticsCalculator.Setup(x => x.GetCurrentStatistics(_battleshipGame))
+                .Returns(gameStatistics);
+
+            _battleshipGame.CurrentStatistics.Should().BeSameAs(gameStatistics);
         }
     }
 
