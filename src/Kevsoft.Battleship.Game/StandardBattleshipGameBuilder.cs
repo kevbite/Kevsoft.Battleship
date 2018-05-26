@@ -9,8 +9,8 @@ namespace Kevsoft.Battleship.Game
 
         private readonly Shipyard _shipyard = new Shipyard(new Dictionary<ShipType, Func<IShip>>()
         {
-            {ShipType.Battleship, () => new Battleship(new SingleLineBattleshipPlacement(1)) },
-            {ShipType.Destroyer, () => new Battleship(new SingleLineBattleshipPlacement(1)) },
+            {ShipType.Battleship, () => new Battleship(new SingleLineBattleshipPlacement(5)) },
+            {ShipType.Destroyer, () => new Battleship(new SingleLineBattleshipPlacement(4)) },
         });
 
         public StandardBattleshipGameBuilder WithShip(ShipType type)
@@ -24,13 +24,9 @@ namespace Kevsoft.Battleship.Game
 
         public BattleshipGame Build()
         {
-            var battlefield = new Battlefield(10);
-            var shipPlacer = new ShipPlacer(battlefield);
-
-            for (var i = 0; i < _ships.Count; i++)
-            {
-                shipPlacer.AddShip(_ships[i], new ShipPlacement('X', i + 1, Direction.Across));
-            }
+            var battlefield = new BattlefieldBuilder(10)
+                .WithShips(_ships)
+                .Build();
 
             var validator = new PositionOnBattlefieldValidator();
             var statisticsCalculator = new GameStatisticsCalculator();

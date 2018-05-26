@@ -2,21 +2,14 @@
 {
     public class ShipPlacer
     {
-        private readonly IBattlefield _battlefield;
-
-        public ShipPlacer(IBattlefield battlefield)
+        public bool AddShip(IBattlefield battlefield, IShip ship, ShipPlacement placement)
         {
-            _battlefield = battlefield;
-        }
-
-        public bool AddShip(IShip ship, ShipPlacement placement)
-        {
-            if (!ship.CanPlace(_battlefield, placement))
+            if (!ship.CanPlace(battlefield, placement))
             {
                 return false;
             }
 
-            ship.Place(_battlefield, placement);
+            ship.Place(battlefield, placement);
             return true;
         }
     }

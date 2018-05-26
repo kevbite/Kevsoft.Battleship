@@ -15,7 +15,7 @@ namespace Kevsoft.Battleship.Game.Tests
         {
             _fixture = new Fixture();
             _battlefield = Mock.Of<IBattlefield>();
-            _shipPlacer = new ShipPlacer(_battlefield);
+            _shipPlacer = new ShipPlacer();
         }
 
         [Fact]
@@ -27,7 +27,7 @@ namespace Kevsoft.Battleship.Game.Tests
             ship.Setup(x => x.CanPlace(_battlefield, placement))
                 .Returns(false);
 
-            _shipPlacer.AddShip(ship.Object, placement)
+            _shipPlacer.AddShip(_battlefield, ship.Object, placement)
                 .Should().BeFalse();
 
             ship.Verify(x => x.Place(It.IsAny<IBattlefield>(), It.IsAny<ShipPlacement>()), Times.Never);
@@ -42,7 +42,7 @@ namespace Kevsoft.Battleship.Game.Tests
             ship.Setup(x => x.CanPlace(_battlefield, placement))
                 .Returns(true);
 
-            _shipPlacer.AddShip(ship.Object, placement)
+            _shipPlacer.AddShip(_battlefield, ship.Object, placement)
                 .Should().BeTrue();
 
             ship.Verify(x => x.Place(_battlefield, placement), Times.Once);
