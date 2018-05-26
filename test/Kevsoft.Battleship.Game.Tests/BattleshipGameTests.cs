@@ -55,8 +55,8 @@ namespace Kevsoft.Battleship.Game.Tests
             _battlefield.Setup(x => x.Cells)
                 .Returns(new Dictionary<(char x, int y), IBattlefieldCell>());
 
-            _battleshipGame.Fire(position).Should().BeTrue();
-            _battleshipGame.Fire(position).Should().BeFalse();
+            _battleshipGame.Fire(position).ShotFired.Should().BeTrue();
+            _battleshipGame.Fire(position).ShotFired.Should().BeFalse();
         }
 
         [Fact]
@@ -71,8 +71,8 @@ namespace Kevsoft.Battleship.Game.Tests
                     {position2, TestCells.EmptyCell}
                 });
 
-            _battleshipGame.Fire(position1).Should().BeTrue();
-            _battleshipGame.Fire(position2).Should().BeTrue();
+            _battleshipGame.Fire(position1).ShotFired.Should().BeTrue();
+            _battleshipGame.Fire(position2).ShotFired.Should().BeTrue();
 
             _battleshipGame.Hits.Should().Contain(position1);
             _battleshipGame.Hits.Should().NotContain(position2);
@@ -90,8 +90,8 @@ namespace Kevsoft.Battleship.Game.Tests
                     {position2, TestCells.EmptyCell}
                 });
 
-            _battleshipGame.Fire(position1).Should().BeTrue();
-            _battleshipGame.Fire(position2).Should().BeTrue();
+            _battleshipGame.Fire(position1).ShotFired.Should().BeTrue();
+            _battleshipGame.Fire(position2).ShotFired.Should().BeTrue();
 
             _battleshipGame.Misses.Should().NotContain(position1);
             _battleshipGame.Misses.Should().Contain(position2);

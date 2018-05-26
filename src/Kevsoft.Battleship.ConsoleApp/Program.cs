@@ -28,7 +28,7 @@ namespace Kevsoft.Battleship.ConsoleApp
                 var x = ReadX();
                 var y = ReadY();
 
-                if (!battleshipGame.Fire((x, y)))
+                if (!battleshipGame.Fire((x, y)).ShotFired)
                 {
                     Console.WriteLine();
                     Console.WriteLine("Invalid move, press any key to continue...");
