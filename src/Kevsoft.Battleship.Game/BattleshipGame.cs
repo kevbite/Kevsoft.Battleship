@@ -8,12 +8,14 @@ namespace Kevsoft.Battleship.Game
     {
         private readonly IBattlefield _battlefield;
         private readonly IShotValidator _shotValidator;
+        private readonly IGameStatisticsCalculator _gameStatisticsCalculator;
         private readonly HashSet<(char x, int y)> _shots = new HashSet<(char x, int y)>();
 
-        public BattleshipGame(IBattlefield battlefield, IShotValidator shotValidator)
+        public BattleshipGame(IBattlefield battlefield, IShotValidator shotValidator, IGameStatisticsCalculator gameStatisticsCalculator)
         {
             _battlefield = battlefield;
             _shotValidator = shotValidator;
+            _gameStatisticsCalculator = gameStatisticsCalculator;
         }
 
         public FireResult Fire((char x, int y) position)
@@ -42,5 +44,7 @@ namespace Kevsoft.Battleship.Game
 
         public ISet<(char x, int y)> Misses => _shots
             .Except(Hits).ToHashSet();
+
+        public GameStatistics CurrentStatistics => _gameStatisticsCalculator.GetCurrentStatistics(this);
     }
 }
