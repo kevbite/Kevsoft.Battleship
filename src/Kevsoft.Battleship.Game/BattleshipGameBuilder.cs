@@ -24,13 +24,9 @@ namespace Kevsoft.Battleship.Game
 
         public BattleshipGame Build()
         {
-            var battlefield = new Battlefield(10);
-            var shipPlacer = new ShipPlacer(battlefield);
-
-            for (var i = 0; i < _ships.Count; i++)
-            {
-                shipPlacer.AddShip(_ships[i], new ShipPlacement('X', i + 1, Direction.Across));
-            }
+            var battlefield = new BattlefieldBuilder(10)
+                .WithShips(_ships)
+                .Build();
 
             var validator = new PositionOnBattlefieldValidator();
             var statisticsCalculator = new GameStatisticsCalculator();
