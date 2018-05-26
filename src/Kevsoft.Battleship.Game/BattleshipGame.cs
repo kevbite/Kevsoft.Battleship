@@ -7,16 +7,23 @@ namespace Kevsoft.Battleship.Game
     public class BattleshipGame : IReadOnlyBattleshipGame
     {
         private readonly IBattlefield _battlefield;
+        private readonly IShotValidator _shotValidator;
         private readonly HashSet<(char x, int y)> _shots = new HashSet<(char x, int y)>();
 
-        public BattleshipGame(IBattlefield battlefield)
+        public BattleshipGame(IBattlefield battlefield, IShotValidator shotValidator)
         {
             _battlefield = battlefield;
+            _shotValidator = shotValidator;
         }
 
         public FireResult Fire((char x, int y) position)
         {
-            return new FireResult(_shots.Add(position));
+            if (_shotValidator.Validate(position, _battlefield))
+            {
+                return new FireResult(_shots.Add(position));
+            }
+
+            return new FireResult(false);
         }
 
         public bool IsComplete

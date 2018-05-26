@@ -17,7 +17,7 @@ namespace Kevsoft.Battleship.ConsoleApp
             shipPlacer.AddShip(new Game.Battleship(new SingleLineBattleshipPlacement(2)), new ShipPlacement('A', 1, Direction.Across));
             shipPlacer.AddShip(new Game.Battleship(new SingleLineBattleshipPlacement(1)), new ShipPlacement('B', 2, Direction.Down));
 
-            var battleshipGame = new BattleshipGame(battlefield);
+            var battleshipGame = new BattleshipGame(battlefield, null);
             var gameDrawer = new GameDrawer(Console.Out, c => Console.ForegroundColor = c, Console.ResetColor);
             while (!battleshipGame.IsComplete)
             {

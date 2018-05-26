@@ -11,12 +11,14 @@ namespace Kevsoft.Battleship.Game.Tests
         private readonly Fixture _fixture;
         private readonly Mock<IBattlefield> _battlefield;
         private readonly BattleshipGame _battleshipGame;
+        private readonly Mock<IShotValidator> _shotValidator;
 
         public BattleshipGameTests()
         {
             _fixture = new Fixture();
             _battlefield = new Mock<IBattlefield>();
-            _battleshipGame = new BattleshipGame(_battlefield.Object);
+            _shotValidator = new Mock<IShotValidator>();
+            _battleshipGame = new BattleshipGame(_battlefield.Object, _shotValidator.Object);
         }
 
         [Fact]
@@ -43,6 +45,9 @@ namespace Kevsoft.Battleship.Game.Tests
                     {('B', 1), TestCells.EmptyCell}
                 });
 
+            _shotValidator.Setup(x => x.Validate(position, _battlefield.Object))
+                .Returns(true);
+
             _battleshipGame.Fire(position);
 
             _battleshipGame.IsComplete.Should().BeTrue();
@@ -54,6 +59,8 @@ namespace Kevsoft.Battleship.Game.Tests
             var position = ('A', 1);
             _battlefield.Setup(x => x.Cells)
                 .Returns(new Dictionary<(char x, int y), IBattlefieldCell>());
+            _shotValidator.Setup(x => x.Validate(position, _battlefield.Object))
+                .Returns(true);
 
             _battleshipGame.Fire(position).ShotFired.Should().BeTrue();
             _battleshipGame.Fire(position).ShotFired.Should().BeFalse();
@@ -70,6 +77,9 @@ namespace Kevsoft.Battleship.Game.Tests
                     {position1, TestCells.OccupiedCell},
                     {position2, TestCells.EmptyCell}
                 });
+
+            _shotValidator.Setup(x => x.Validate(It.IsIn(position1, position2), _battlefield.Object))
+                .Returns(true);
 
             _battleshipGame.Fire(position1).ShotFired.Should().BeTrue();
             _battleshipGame.Fire(position2).ShotFired.Should().BeTrue();
@@ -89,6 +99,8 @@ namespace Kevsoft.Battleship.Game.Tests
                     {position1, TestCells.OccupiedCell},
                     {position2, TestCells.EmptyCell}
                 });
+            _shotValidator.Setup(x => x.Validate(It.IsIn(position1, position2), _battlefield.Object))
+                .Returns(true);
 
             _battleshipGame.Fire(position1).ShotFired.Should().BeTrue();
             _battleshipGame.Fire(position2).ShotFired.Should().BeTrue();
@@ -111,6 +123,18 @@ namespace Kevsoft.Battleship.Game.Tests
                 });
 
             _battleshipGame.Cells.Should().BeEquivalentTo(position1, position2);
+        }
+
+        [Fact]
+        public void ShouldNotFireShotForInvalidFire()
+        {
+            var position1 = _fixture.Create<(char, int)>();
+
+            _shotValidator.Setup(x => x.Validate(position1, _battlefield.Object))
+                .Returns(false);
+
+            _battleshipGame.Fire(position1).ShotFired.Should().BeFalse();
+
         }
     }
 }
