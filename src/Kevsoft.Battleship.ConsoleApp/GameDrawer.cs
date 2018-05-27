@@ -7,18 +7,14 @@ namespace Kevsoft.Battleship.ConsoleApp
 {
     public class GameDrawer
     {
-        private readonly TextWriter _out;
-        private readonly Action<ConsoleColor> _setColor;
-        private readonly Action _resetColor;
+        private readonly IConsole _console;
 
-        public GameDrawer(TextWriter @out, Action<ConsoleColor> setColor, Action resetColor)
+        public GameDrawer(IConsole console)
         {
-            _out = @out;
-            _setColor = setColor;
-            _resetColor = resetColor;
+            _console = console;
         }
 
-        public void Draw(IReadOnlyBattleshipGame game)
+        public void Draw(IReadOnlyBattleshipGame game, (char, int)? cursor = null)
         {
             var minX = game.Cells.Min(pos => pos.x);
             var maxX = game.Cells.Max(pos => pos.x);
@@ -28,63 +24,67 @@ namespace Kevsoft.Battleship.ConsoleApp
             DrawHeader(minX, maxX);
             for (var y = minY; y <= maxY; y++)
             {
-                _out.Write($" {y,-2}");
+                _console.Write($" {y,-2}");
                 for (var x = minX; x <= maxX; x++)
                 {
-                    _out.Write($"| ");
-                    WriteMove((x, y), game);
-                    _out.Write(" ");
+                    _console.Write("| ");
+                    WriteMove((x, y), game, cursor);
+                    _console.Write(" ");
                 }
-                _out.WriteLine();
+                _console.WriteLine();
 
                 DrawSeparator(minX, maxX);
             }
         }
 
-        private void WriteMove((char, int) pos, IReadOnlyBattleshipGame game)
+        private void WriteMove((char x, int y) pos, IReadOnlyBattleshipGame game, (char x, int y)? cursor)
         {
             var value = ' ';
-            
+            var foregroundColor = _console.ForegroundColor;
+            if (cursor.HasValue && cursor.Value.x == pos.x && cursor.Value.y == pos.y)
+            {
+                foregroundColor = ConsoleColor.Blue;
+                value = '+';
+            }
             if (game.Hits.Contains(pos))
             {
-                _setColor(ConsoleColor.Red);
-                value ='*';
+                foregroundColor = ConsoleColor.Red;
+                value = '*';
             }
             else if (game.Misses.Contains(pos))
             {
-                _setColor(ConsoleColor.Green);
-                value ='X';
+                foregroundColor = ConsoleColor.White;
+                value = 'X';
             }
 
-            _out.Write(value);
-            Console.ResetColor();
+            _console.WriteWithForegroundColor(value, foregroundColor);
         }
 
         private void DrawSeparator(char min, char max)
         {
-            _out.Write(" - ");
+            _console.Write(" - ");
             for (var c = min; c <= max; c++)
             {
-                _out.Write("+ - ");
+                _console.Write("+ - ");
             }
-            _out.WriteLine();
+            _console.WriteLine();
         }
 
         private void DrawHeader(char min, char max)
         {
-            _out.Write("   ");
+            _console.Write("   ");
             for (var c = min; c <= max; c++)
             {
-                _out.Write($"| {c} ");
+                _console.Write($"| {c} ");
             }
-            _out.WriteLine();
+            _console.WriteLine();
 
-            _out.Write($"---");
+            _console.Write("---");
             for (var c = min; c <= max; c++)
             {
-                _out.Write($"+---");
+                _console.Write($"+---");
             }
-            _out.WriteLine();
+            _console.WriteLine();
         }
     }
 }
