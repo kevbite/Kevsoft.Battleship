@@ -41,7 +41,28 @@ Task("Run-Unit-Tests")
     }
 });
 
+Task("Create-Artifacts")
+    .IsDependentOn("Run-Unit-Tests")
+    .Does(() =>
+{
+    void CreateArtifacts(string runtime){
+        var settings = new DotNetCorePublishSettings
+        {
+            Framework = "netcoreapp2.0",
+            Configuration = configuration,
+            OutputDirectory = $"./artifacts/Kevsoft.Battleship.ConsoleApp-{runtime}",
+            SelfContained = true,
+            Runtime = runtime
+        };
+
+        DotNetCorePublish("./src/Kevsoft.Battleship.ConsoleApp/Kevsoft.Battleship.ConsoleApp.csproj", settings);
+    }
+    CreateArtifacts("win-x64");
+    CreateArtifacts("osx-x64");
+    CreateArtifacts("linux-x64");
+});
+
 Task("Default")
-    .IsDependentOn("Run-Unit-Tests");
+    .IsDependentOn("Create-Artifacts");
 
 RunTarget(target);

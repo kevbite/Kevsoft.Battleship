@@ -7,3 +7,8 @@ build_script:
   - ps: .\build.ps1
 
 test: off
+
+artifacts:
+  - path: .\artifacts\Kevsoft.Battleship.ConsoleApp-win-x64
+  - path: .\artifacts\Kevsoft.Battleship.ConsoleApp-osx-x64
+  - path: .\artifacts\Kevsoft.Battleship.ConsoleApp-linux-x64
