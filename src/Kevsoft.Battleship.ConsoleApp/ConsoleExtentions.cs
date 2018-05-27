@@ -23,7 +23,7 @@ namespace Kevsoft.Battleship.ConsoleApp
 
         public static void WriteAtPositionWithForegroundColor(this IConsole console, int left, int top, string value, ConsoleColor color)
         {
-            console.WithPosition(x => x.WriteWithForegroundColor(value, ConsoleColor.Red), left, top);
+            console.WithPosition(x => x.WriteWithForegroundColor(value, color), left, top);
         }
 
         public static void WithColor(this IConsole console, Action<IConsole> action, ConsoleColor color)
@@ -45,6 +45,18 @@ namespace Kevsoft.Battleship.ConsoleApp
         public static void WriteWithForegroundColor(this IConsole console, string value, ConsoleColor color)
         {
             console.WithColor(x => x.Write(value), color);
+        }
+
+        public static void ClearConsoleLine(this IConsole console, int line)
+        {
+            var lastCursorTop = console.CursorTop;
+            var lastCursorLeft = console.CursorLeft;
+
+            console.SetCursorPosition(0, line);
+
+            console.Write(new string(' ', console.WindowWidth));
+
+            console.SetCursorPosition(lastCursorLeft, lastCursorTop);
         }
     }
 }

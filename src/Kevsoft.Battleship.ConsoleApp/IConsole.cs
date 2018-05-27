@@ -15,6 +15,7 @@ namespace Kevsoft.Battleship.ConsoleApp
         int CursorTop { get; }
 
         ConsoleColor ForegroundColor { get; set; }
+        int WindowWidth { get; }
 
         void SetCursorPosition(int left, int top);
 

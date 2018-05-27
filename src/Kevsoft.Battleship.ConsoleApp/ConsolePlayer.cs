@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Kevsoft.Battleship.Game;
 
 namespace Kevsoft.Battleship.ConsoleApp
@@ -19,21 +20,17 @@ namespace Kevsoft.Battleship.ConsoleApp
         public void Play(BattleshipGame battleshipGame)
         {
             var position = new (char x, int y)?();
+            var lastMessage = string.Empty;
             while (!battleshipGame.IsComplete)
             {
                 _console.Clear();
                 _gameDrawer.Draw(battleshipGame, position);
                 _console.WriteLine();
+                _console.WriteAtPositionWithForegroundColor(0, _console.CursorTop +1, lastMessage, ConsoleColor.Yellow);
                 position = _positionReader.ReadPosition();
 
                 var fireResult = battleshipGame.Fire(position.Value);
-                if (fireResult == FireResult.Invalid || fireResult == FireResult.AlreadyFired)
-                {
-                    _console.WriteLine();
-                    _console.Write("Invalid move, press any key to continue...");
-                    _console.WriteLine();
-                    _console.ReadKey(true);
-                }
+                lastMessage = _fireResultMessages[fireResult];
             }
 
             _console.Clear();
@@ -49,6 +46,12 @@ namespace Kevsoft.Battleship.ConsoleApp
             _console.WriteLine();
         }
 
-   
+        private readonly IReadOnlyDictionary<FireResult, string> _fireResultMessages = new Dictionary<FireResult, string>
+        {
+            {FireResult.Invalid, "Invalid move!" },
+            {FireResult.AlreadyFired, "You've shot this before!" },
+            {FireResult.Missed, "Damn you missed!" },
+            {FireResult.Hit, "Nice one, you got a hit!" },
+        };
     }
 }
