@@ -29,6 +29,8 @@ namespace Kevsoft.Battleship.ConsoleApp
             set => Console.ForegroundColor = value;
         }
 
+        public int WindowWidth => Console.WindowWidth;
+
         public void SetCursorPosition(int left, int top)
         {
             Console.SetCursorPosition(left, top);

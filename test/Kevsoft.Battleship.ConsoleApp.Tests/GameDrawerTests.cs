@@ -53,6 +53,8 @@ namespace Kevsoft.Battleship.ConsoleApp.Tests
 
         public ConsoleColor ForegroundColor { get; set; }
 
+        public int WindowWidth { get; }
+
         public void SetCursorPosition(int left, int top)
         {
             throw new NotImplementedException();

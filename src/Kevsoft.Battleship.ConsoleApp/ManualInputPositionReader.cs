@@ -34,7 +34,7 @@ namespace Kevsoft.Battleship.ConsoleApp
             {
                 key = _console.ReadKey(true);
                 var c = key.KeyChar;
-                _console.WriteAtPosition(0, _console.CursorTop + 1, new string(' ', informationText.Length));
+                _console.ClearConsoleLine(_console.CursorTop + 1);
                 if (key.Key == ConsoleKey.Backspace)
                 {
                     _console.Write("\b \b");
@@ -68,7 +68,7 @@ namespace Kevsoft.Battleship.ConsoleApp
             do
             {
                 x = _console.ReadKey(true).KeyChar;
-                _console.WriteAtPosition(0, _console.CursorTop + 1, new string(' ', informationText.Length));
+                _console.ClearConsoleLine(_console.CursorTop + 1);
                 if (!char.IsLetter(x))
                 {
                     _console.WriteAtPositionWithForegroundColor(0, _console.CursorTop + 1, informationText, ConsoleColor.Red);
