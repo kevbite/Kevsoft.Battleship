@@ -10,5 +10,18 @@ test: off
 
 artifacts:
   - path: .\artifacts\Kevsoft.Battleship.ConsoleApp-win-x64
+    name: ConsoleApp-win-x64
   - path: .\artifacts\Kevsoft.Battleship.ConsoleApp-osx-x64
+    name: ConsoleApp-osx-x64
   - path: .\artifacts\Kevsoft.Battleship.ConsoleApp-linux-x64
+    name: ConsoleApp-linux-x64
+
+deploy:
+  release: ConsoleApp $(appveyor_build_version)
+  description: This release includes ConsoleApp runtimes for win-x64, osx-x64 and linux-x64
+  provider: GitHub
+  auth_token:
+    secure: 82mT3x9sy8Q4CVeMOaZWfxrZAxm7JkHhLcHCxaQvjJ4LORt62yDTx3/e+F5IPo5X
+  artifact: ConsoleApp-win-x64,ConsoleApp-osx-x64,ConsoleApp-linux-x64
+  on:
+    branch: master
