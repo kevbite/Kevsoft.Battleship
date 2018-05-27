@@ -8,6 +8,57 @@ using Xunit;
 
 namespace Kevsoft.Battleship.ConsoleApp.Tests
 {
+    public class TextWriterConsole : IConsole
+    {
+        private readonly TextWriter _textWriter;
+
+        public TextWriterConsole(TextWriter textWriter)
+        {
+            _textWriter = textWriter;
+        }
+
+        public void Write(string value)
+        {
+            _textWriter.Write(value);
+        }
+
+        public void Write(char value)
+        {
+            _textWriter.Write(value);
+        }
+
+        public void WriteLine()
+        {
+            _textWriter.WriteLine();
+        }
+
+        public void Clear()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void WriteLine(string value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ConsoleKeyInfo ReadKey(bool intercept)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int CursorLeft { get; }
+
+        public int CursorTop { get; }
+
+        public ConsoleColor ForegroundColor { get; set; }
+
+        public void SetCursorPosition(int left, int top)
+        {
+            throw new NotImplementedException();
+        }
+
+    }
     public class GameDrawerTests
     {
         private readonly GameDrawer _gameDrawer;
@@ -16,7 +67,7 @@ namespace Kevsoft.Battleship.ConsoleApp.Tests
         public GameDrawerTests()
         {
             _writer = new StringWriter();
-            _gameDrawer = new GameDrawer(_writer, _ => {}, () => {});
+            _gameDrawer = new GameDrawer(new TextWriterConsole(_writer));
         }
 
         [Fact]
