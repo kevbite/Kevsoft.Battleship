@@ -26,7 +26,8 @@ namespace Kevsoft.Battleship.ConsoleApp
                 _console.WriteLine();
                 position = _positionReader.ReadPosition();
 
-                if (!battleshipGame.Fire(position.Value).ShotFired)
+                var fireResult = battleshipGame.Fire(position.Value);
+                if (fireResult == FireResult.Invalid || fireResult == FireResult.AlreadyFired)
                 {
                     _console.WriteLine();
                     _console.Write("Invalid move, press any key to continue...");

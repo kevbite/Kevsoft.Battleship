@@ -65,8 +65,10 @@ namespace Kevsoft.Battleship.Game.Tests
             _shotValidator.Setup(x => x.Validate(position, _battlefield.Object))
                 .Returns(true);
 
-            _battleshipGame.Fire(position).ShotFired.Should().BeTrue();
-            _battleshipGame.Fire(position).ShotFired.Should().BeFalse();
+            _battleshipGame.Fire(position)
+                .Should().Be(FireResult.Missed);
+            _battleshipGame.Fire(position)
+                .Should().Be(FireResult.AlreadyFired);
         }
 
         [Fact]
@@ -84,8 +86,10 @@ namespace Kevsoft.Battleship.Game.Tests
             _shotValidator.Setup(x => x.Validate(It.IsIn(position1, position2), _battlefield.Object))
                 .Returns(true);
 
-            _battleshipGame.Fire(position1).ShotFired.Should().BeTrue();
-            _battleshipGame.Fire(position2).ShotFired.Should().BeTrue();
+            _battleshipGame.Fire(position1)
+                .Should().Be(FireResult.Hit);
+            _battleshipGame.Fire(position2)
+                .Should().Be(FireResult.Missed);
 
             _battleshipGame.Hits.Should().Contain(position1);
             _battleshipGame.Hits.Should().NotContain(position2);
@@ -105,8 +109,10 @@ namespace Kevsoft.Battleship.Game.Tests
             _shotValidator.Setup(x => x.Validate(It.IsIn(position1, position2), _battlefield.Object))
                 .Returns(true);
 
-            _battleshipGame.Fire(position1).ShotFired.Should().BeTrue();
-            _battleshipGame.Fire(position2).ShotFired.Should().BeTrue();
+            _battleshipGame.Fire(position1)
+                .Should().Be(FireResult.Hit);
+            _battleshipGame.Fire(position2)
+                .Should().Be(FireResult.Missed);
 
             _battleshipGame.Misses.Should().NotContain(position1);
             _battleshipGame.Misses.Should().Contain(position2);
@@ -136,7 +142,8 @@ namespace Kevsoft.Battleship.Game.Tests
             _shotValidator.Setup(x => x.Validate(position1, _battlefield.Object))
                 .Returns(false);
 
-            _battleshipGame.Fire(position1).ShotFired.Should().BeFalse();
+            _battleshipGame.Fire(position1)
+                .Should().Be(FireResult.Invalid);
 
         }
 

@@ -1,12 +1,10 @@
 ﻿namespace Kevsoft.Battleship.Game
 {
-    public class FireResult
+    public enum FireResult
     {
-        public FireResult(bool shotFired)
-        {
-            ShotFired = shotFired;
-        }
-
-        public bool ShotFired { get; }
+        Invalid = 0,
+        AlreadyFired,
+        Hit,
+        Missed
     }
 }
