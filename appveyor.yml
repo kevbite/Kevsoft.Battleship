@@ -3,6 +3,8 @@ image: Visual Studio 2017
 configuration:
   - Release
 
+skip_tags: true
+
 build_script:
   - ps: .\build.ps1
 
