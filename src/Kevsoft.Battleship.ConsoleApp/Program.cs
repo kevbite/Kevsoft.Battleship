@@ -21,8 +21,9 @@ namespace Kevsoft.Battleship.ConsoleApp
 
             var consoleWrapper = new ConsoleWrapper();
             var gameDrawer = new GameDrawer(consoleWrapper);
+            var arrowInputPositionReader = new ArrowInputPositionReader(gameDrawer, battleshipGame, consoleWrapper);
             var manualInputPositionReader = new ManualInputPositionReader(consoleWrapper);
-            var consolePlayer = new ConsolePlayer(consoleWrapper, gameDrawer, manualInputPositionReader);
+            var consolePlayer = new ConsolePlayer(consoleWrapper, gameDrawer, arrowInputPositionReader);
 
             consolePlayer.Play(battleshipGame);
 
